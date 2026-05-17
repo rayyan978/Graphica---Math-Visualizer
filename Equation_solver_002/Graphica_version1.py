@@ -155,9 +155,9 @@ elif choice == "3":
 elif choice == "4":
   solve_linear_inequalities()
 elif choice == "5":
-   print("Goodbye 👋")
+   print("Goodbye ")
   
 else:
   print("Invalid choice, try again ^_^")
-print('Goodbye 👋') 
+print('Goodbye ') 
 exit()
