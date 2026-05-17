@@ -8,10 +8,11 @@ Fast and responsive rendering.
 Designed for learning and experimentation.
 
 TECH STACK :
-Python
-Matplotlib
-NumPy
+Python.
+Matplotlib.
+NumPy.
 
-
+Whom is it designed for:
+It is designed for anyone who wants to understand math visually and make math a fun and interactive experience.
 
 
