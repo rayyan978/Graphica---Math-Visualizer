@@ -3,7 +3,7 @@ import cmath
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.widgets import Slider
-from matplotlib.widgets import CheckButton
+from matplotlib.widgets import CheckButtons
 
 THEMES = {
     "light": {
