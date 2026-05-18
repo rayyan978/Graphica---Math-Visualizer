@@ -1,0 +1,9 @@
+.vscode/
+.jslaunch/
+node_modules/
+__pycache__/
+.venv/
+dist/
+build/
+*.exe
+a.out
