@@ -1,10 +1,9 @@
-<<<<<<< HEAD
 import math
 import cmath
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.widgets import Slider
-from matplotlib.widgets import CheckButtons
+from matplotlib.widgets import CheckButton
 
 THEMES = {
     "light": {
