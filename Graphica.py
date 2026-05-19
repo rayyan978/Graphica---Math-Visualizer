@@ -27,21 +27,19 @@ THEMES = {
 # ------------------ GRAPH FUNCTIONS ------------------
 
 # ------------------ LINEAR PLOTTER ------------------
-def plot_linear(a0, b0, c0, theme="light"):
+
+def plot_linear(m0, c0, theme="light"):
     colors = THEMES[theme]
+
+    x = np.linspace(-100, 100, 1000)
 
     fig = plt.figure(facecolor=colors["bg"])
 
     # ------------------ GRAPH AREA ------------------
     ax = fig.add_axes([0.1, 0.4, 0.8, 0.55], facecolor=colors["bg"])
 
-    # Initial line
-    if a0 != 0:
-        x_val = (c0 - b0) / a0
-    else:
-        x_val = 0
-
-    line = ax.axvline(x=x_val, color=colors["line"], linewidth=2)
+    y = m0 * x + c0
+    line, = ax.plot(x, y, color=colors["line"], linewidth=2)
 
     # Axes styling
     ax.spines['left'].set_position('zero')
@@ -59,13 +57,23 @@ def plot_linear(a0, b0, c0, theme="light"):
 
     ax.grid(True, linestyle="--", alpha=0.5, color=colors["grid"])
 
+    # ------------------ INITIAL ANGLE ------------------
+    angle0 = math.degrees(math.atan(m0))
+
     ax.set_title(
-        "Interactive Linear Graph",
+        f"y = {round(m0,2)}x + {round(c0,2)}   |   θ = {round(angle0,2)}°",
         fontsize=16,
         color=colors["text"],
-        fontweight='bold',
-        pad=10
+        fontweight='bold'
     )
+
+    # ------------------ TRIANGLE (initial) ------------------
+    run = 2  # horizontal length
+    rise = m0 * run
+
+    tri_line1, = ax.plot([0, run], [0, 0], color='yellow')      # run
+    tri_line2, = ax.plot([run, run], [0, rise], color='yellow') # rise
+    tri_line3, = ax.plot([0, run], [0, rise], color='yellow')   # hypotenuse
 
     # ------------------ SLIDER PANEL ------------------
     slider_bg = fig.add_axes([0.1, 0.05, 0.8, 0.25], facecolor=colors["slider_bg"])
@@ -73,47 +81,73 @@ def plot_linear(a0, b0, c0, theme="light"):
     slider_bg.set_yticks([])
     slider_bg.set_navigate(False)
 
-    # Sliders
-    ax_a = fig.add_axes([0.2, 0.22, 0.6, 0.03], facecolor=colors["slider_bg"])
-    ax_b = fig.add_axes([0.2, 0.16, 0.6, 0.03], facecolor=colors["slider_bg"])
-    ax_c = fig.add_axes([0.2, 0.10, 0.6, 0.03], facecolor=colors["slider_bg"])
+    # ------------------ SLIDERS ------------------
+    ax_m = fig.add_axes([0.1, 0.18, 0.8, 0.04], facecolor=colors["slider_bg"])
+    ax_c = fig.add_axes([0.1, 0.10, 0.8, 0.04], facecolor=colors["slider_bg"])
 
-    ax_a.set_navigate(False)
-    ax_b.set_navigate(False)
-    ax_c.set_navigate(False)
+    s_m = Slider(ax_m, 'Slope (m)', -10, 10, valinit=m0)
+    s_c = Slider(ax_c, 'Intercept (c)', -10, 10, valinit=c0)
 
-    s_a = Slider(ax_a, 'a', -50, 50, valinit=a0)
-    s_b = Slider(ax_b, 'b', -50, 50, valinit=b0)
-    s_c = Slider(ax_c, 'c', -50, 50, valinit=c0)
-
+    # Dark mode styling
     if theme == "dark":
-        for s in [s_a, s_b, s_c]:
+        for s in [s_m, s_c]:
             s.label.set_color("white")
             s.valtext.set_color("white")
+            s.track.set_color("#555555")
+            s.poly.set_color(colors["line"])
+
+    # ------------------ SNAP SETTINGS ------------------
+    special_angles = [0, 30, 45, 60, 75]
+    snap_threshold = 2
+
+    updating = False
 
     # ------------------ UPDATE ------------------
     def update(val):
-        a = s_a.val
-        b = s_b.val
+        nonlocal updating
+        if updating:
+            return
+
+        updating = True
+
+        m = s_m.val
         c = s_c.val
 
-        if a == 0:
-            line.set_visible(False)
-            ax.set_title("a = 0 (invalid)", color='red')
-        else:
-            x_val = (c - b) / a
-            line.set_xdata([x_val, x_val])
-            line.set_visible(True)
-            ax.set_title(f"x = {round(x_val, 2)}", color=colors["text"])
+        angle = math.degrees(math.atan(m))
+
+        # Snap logic
+        for a in special_angles:
+            if abs(angle - a) < snap_threshold:
+                angle = a
+                m = math.tan(math.radians(a))
+                s_m.set_val(m)
+                break
+
+        # Update line
+        y = m * x + c
+        line.set_ydata(y)
+
+        # Update triangle
+        run = 2
+        rise = m * run
+
+        tri_line1.set_data([0, run], [0, 0])
+        tri_line2.set_data([run, run], [0, rise])
+        tri_line3.set_data([0, run], [0, rise])
+
+        # Update title
+        ax.set_title(
+            f"y = {round(m,2)}x + {round(c,2)}   |   θ = {round(angle,2)}°",
+            color=colors["text"]
+        )
 
         fig.canvas.draw_idle()
+        updating = False
 
-    s_a.on_changed(update)
-    s_b.on_changed(update)
+    s_m.on_changed(update)
     s_c.on_changed(update)
 
     plt.show()
-
 # ------------------ QUADRATIC PLOTTER ------------------
 def plot_quadratic(a0, b0, c0, theme="light"):
     
