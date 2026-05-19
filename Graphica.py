@@ -601,4 +601,4 @@ def main_menu():
 
     else:
         print("Invalid choice")
-
+main_menu()
