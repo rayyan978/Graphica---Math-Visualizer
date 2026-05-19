@@ -182,12 +182,12 @@ def plot_quadratic(a0, b0, c0, theme="light"):
     slider_bg.set_navigate(False)
 
     # Sliders for a, b, c
-    ax_a = fig.add_axes([0.2, 0.25, 0.6, 0.03], facecolor=colors["slider_bg"])
-    ax_b = fig.add_axes([0.2, 0.19, 0.6, 0.03], facecolor=colors["slider_bg"])
-    ax_c = fig.add_axes([0.2, 0.13, 0.6, 0.03], facecolor=colors["slider_bg"])
+    ax_a = fig.add_axes([0.1, 0.25, 0.6, 0.02], facecolor=colors["slider_bg"])
+    ax_b = fig.add_axes([0.1, 0.19, 0.6, 0.02], facecolor=colors["slider_bg"])
+    ax_c = fig.add_axes([0.1, 0.13, 0.6, 0.02], facecolor=colors["slider_bg"])
 
     # Tangent slider
-    ax_t = fig.add_axes([0.2, 0.07, 0.6, 0.03], facecolor=colors["slider_bg"])
+    ax_t = fig.add_axes([0.1, 0.07, 0.6, 0.02], facecolor=colors["slider_bg"])
 
     for a in (ax_a, ax_b, ax_c, ax_t):
         a.set_navigate(False)
