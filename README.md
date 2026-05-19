@@ -1,5 +1,5 @@
 Graphica is an interactive tool designed to visualize mathematical equations and functions in a dynamic and intuitive way.
-It helps users better understand mathematical behaviour through reaL-time graph plotting.
+It helps users better understand mathematical behaviour through real-time graph plotting.
 
 FEATURES :
 Plot mathematical equations instantly.
