@@ -601,4 +601,5 @@ def main_menu():
 
     else:
         print("Invalid choice")
-main_menu()
+if __name__ == "__main__":
+    main_menu()
